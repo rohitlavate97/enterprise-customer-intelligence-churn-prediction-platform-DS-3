@@ -7,17 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 16: Automated Retraining Pipeline & Model Registry
+- Versioned model binary registry (`training/model_registry.py`, `ModelRegistry`) saving SHA256 checksums and JSON manifest logs (`models/registry/registry_manifest.json`).
+- Champion vs. Challenger validation gate (`training/retraining_pipeline.py`, `AutomatedRetrainingPipeline`) enforcing a $\ge 1.0\%$ relative PR AUC gain threshold for promotion.
+- Automated rollback mechanism (`rollback_champion`) restoring previous production Champion model if candidate validation fails or degrades in staging.
+- Retraining execution CLI runner script (`scripts/run_retraining_pipeline.py`).
+- Automated unit tests (`tests/test_retraining_pipeline.py`) verifying version registration, Champion promotion, rollback capability, and validation gate rules.
+
 ### Added - Phase 15: Model Monitoring & Data/Concept Drift Engine
-- Feature distribution Population Stability Index (PSI) calculator (`monitoring/drift_detector.py`, `DriftDetector`).
-- Two-sample Kolmogorov-Smirnov (KS) test for statistical feature drift detection (`calculate_ks_test`).
-- Concept drift and accuracy decay monitor (`monitoring/concept_drift.py`, `ConceptDriftMonitor`) tracking PR AUC decay against baseline.
-- Programmatic automated retraining trigger evaluation (flagged when max PSI $\ge 0.25$ or PR AUC $< 0.80$).
-- Drift monitoring CLI runner (`scripts/run_drift_monitoring.py`) exporting `models/artifacts/drift_monitoring_report.json`.
-- Automated unit tests (`tests/test_monitoring.py`) verifying PSI precision, KS drift detection, and retraining trigger evaluation.
+- Feature distribution Population Stability Index (PSI) calculator (`monitoring/drift_detector.py`).
+- Kolmogorov-Smirnov (KS) test for feature drift.
+- Concept drift monitor and automated retraining trigger.
 
 ### Added - Phase 14: Real-Time Streaming Engine & High-Risk Alert Dispatcher
 - High-velocity customer activity event producer (`streaming/producer.py`).
-- Real-time stream processor consumer (`streaming/consumer.py`) with 5-minute sliding window.
+- Real-time stream processor consumer (`streaming/consumer.py`).
 
 ### Added - Phase 13: Interactive Streamlit Executive Dashboard & ROI Simulator
 - Multi-tab Streamlit dashboard application (`dashboard/app.py`).

@@ -133,7 +133,8 @@ class StreamProcessorConsumer:
 
         if self.preprocessor is not None and self.model is not None:
             X_tr = self.preprocessor.transform(featured.drop(columns=["customer_id"]))
-            prob = float(self.model.predict_proba(X_tr)[0, 1])
+            proba_arr = self.model.predict_proba(X_tr)
+            prob = float(proba_arr[0, 1]) if proba_arr.shape[1] > 1 else float(proba_arr[0, 0])
 
             feature_names = list(self.preprocessor.named_steps["preprocessor"].get_feature_names_out())
             importances = getattr(self.model, "feature_importances_", np.ones(X_tr.shape[1]))
