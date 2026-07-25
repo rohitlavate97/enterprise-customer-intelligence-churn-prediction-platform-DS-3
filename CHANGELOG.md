@@ -7,22 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 18: CI/CD Pipeline & GitHub Actions Automation
+- Complete GitHub Actions CI/CD workflow (`.github/workflows/ci.yml`) featuring:
+  - Triggers on `push` and `pull_request` to `main`.
+  - Multi-version Python test matrix (Python 3.10, 3.11, 3.12).
+  - Code formatting & linting checks via `ruff`.
+  - Automated pytest test suite execution with coverage reporting (`pytest --cov`).
+  - Master E2E workflow execution and FastAPI <50ms SLA latency verification.
+- CI workflow YAML structure unit tests (`tests/test_cicd_compliance.py`).
+
 ### Added - Phase 17: End-to-End System Integration Tests & Master Workflow Orchestrator
-- Master CLI Workflow Orchestrator (`scripts/run_full_pipeline.py`) executing all platform stages sequentially in 4.29s:
-  1. Synthetic Data Generation with Ground-Truth Signal.
-  2. Data Cleaning & Data Quality Profiling.
-  3. Domain Feature Engineering & Leakage Guard.
-  4. Preprocessing Pipeline & CatBoost Champion Training with Early Stopping.
-  5. Explainability Layer & Segment Fairness Audit.
-  6. Financial ROI & High-Risk Customer Retention Call List.
-  7. Real-Time Customer Event Streaming Simulation & High-Risk Alerts.
-  8. Feature Distribution Drift Audit (PSI & KS tests).
-  9. Automated Retraining Cycle & Champion vs Challenger Gate.
-- End-to-End System Integration Test Suite (`tests/test_e2e_pipeline.py`) validating the complete lifecycle.
+- Master CLI Workflow Orchestrator (`scripts/run_full_pipeline.py`) executing all platform stages sequentially in 3.66s.
+- End-to-End System Integration Test Suite (`tests/test_e2e_pipeline.py`).
 
 ### Added - Phase 16: Automated Retraining Pipeline & Model Registry
 - Versioned model binary registry (`training/model_registry.py`) saving SHA256 checksums and JSON manifest logs.
-- Champion vs. Challenger validation gate (`training/retraining_pipeline.py`) enforcing $\ge 1.0\%$ relative PR AUC gain threshold.
+- Champion vs. Challenger validation gate (`training/retraining_pipeline.py`).
 - Automated rollback mechanism (`rollback_champion`).
 
 ### Added - Phase 15: Model Monitoring & Data/Concept Drift Engine
