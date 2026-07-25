@@ -7,12 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 15: Model Monitoring & Data/Concept Drift Engine
+- Feature distribution Population Stability Index (PSI) calculator (`monitoring/drift_detector.py`, `DriftDetector`).
+- Two-sample Kolmogorov-Smirnov (KS) test for statistical feature drift detection (`calculate_ks_test`).
+- Concept drift and accuracy decay monitor (`monitoring/concept_drift.py`, `ConceptDriftMonitor`) tracking PR AUC decay against baseline.
+- Programmatic automated retraining trigger evaluation (flagged when max PSI $\ge 0.25$ or PR AUC $< 0.80$).
+- Drift monitoring CLI runner (`scripts/run_drift_monitoring.py`) exporting `models/artifacts/drift_monitoring_report.json`.
+- Automated unit tests (`tests/test_monitoring.py`) verifying PSI precision, KS drift detection, and retraining trigger evaluation.
+
 ### Added - Phase 14: Real-Time Streaming Engine & High-Risk Alert Dispatcher
-- High-velocity customer activity event producer (`streaming/producer.py`, `CustomerEventProducer`) generating telemetry events (`support_ticket_opened`, `usage_drop_detected`, `payment_failed`, `competitor_viewed`).
-- Real-time stream processor consumer (`streaming/consumer.py`, `StreamProcessorConsumer`) featuring 5-minute sliding window state tracking per customer.
-- Real-time Slack/Webhook style JSON alert dispatcher (`AlertDispatcher`) emitting critical churn alerts when predicted churn probability exceeds threshold ($\ge 0.80$).
-- Real-time streaming pipeline CLI script (`scripts/run_streaming_pipeline.py`) exporting `models/artifacts/streaming_alerts.json`.
-- Automated unit tests (`tests/test_streaming.py`) verifying producer event schema generation, sliding window aggregation, and Slack alert payload formatting.
+- High-velocity customer activity event producer (`streaming/producer.py`).
+- Real-time stream processor consumer (`streaming/consumer.py`) with 5-minute sliding window.
 
 ### Added - Phase 13: Interactive Streamlit Executive Dashboard & ROI Simulator
 - Multi-tab Streamlit dashboard application (`dashboard/app.py`).
