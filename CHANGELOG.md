@@ -7,14 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 14: Real-Time Streaming Engine & High-Risk Alert Dispatcher
+- High-velocity customer activity event producer (`streaming/producer.py`, `CustomerEventProducer`) generating telemetry events (`support_ticket_opened`, `usage_drop_detected`, `payment_failed`, `competitor_viewed`).
+- Real-time stream processor consumer (`streaming/consumer.py`, `StreamProcessorConsumer`) featuring 5-minute sliding window state tracking per customer.
+- Real-time Slack/Webhook style JSON alert dispatcher (`AlertDispatcher`) emitting critical churn alerts when predicted churn probability exceeds threshold ($\ge 0.80$).
+- Real-time streaming pipeline CLI script (`scripts/run_streaming_pipeline.py`) exporting `models/artifacts/streaming_alerts.json`.
+- Automated unit tests (`tests/test_streaming.py`) verifying producer event schema generation, sliding window aggregation, and Slack alert payload formatting.
+
 ### Added - Phase 13: Interactive Streamlit Executive Dashboard & ROI Simulator
-- Full multi-tab Streamlit dashboard application (`dashboard/app.py`):
-  - **Executive Overview:** High-level KPI metrics, interactive Retention Campaign ROI simulator with sliders, and downloadable high-risk call list CSV export.
-  - **Real-Time Risk Calculator:** Interactive customer profile input form rendering real-time churn probability gauge chart and plain-language SHAP retention action plans.
-  - **Model Benchmarking:** Model metric table and Plotly accuracy vs. speed trade-off scatter plot.
-  - **Customer Deep-Dive:** Account profile lookup, telemetry history, and risk profile.
-  - **Segment Fairness Audit:** Error rate disparity breakdowns across contract types and tenure bands.
-- Automated unit tests (`tests/test_dashboard.py`) verifying artifact loading and dataset preparation.
+- Multi-tab Streamlit dashboard application (`dashboard/app.py`).
 
 ### Added - Phase 12: Production FastAPI Inference Server & Swagger / OpenAPI Documentation
 - Custom Swagger UI (`/docs`), ReDoc (`/redoc`), OpenAPI 3.0 export (`/openapi.json`), `/explain`, and Prometheus `/metrics` endpoints.
