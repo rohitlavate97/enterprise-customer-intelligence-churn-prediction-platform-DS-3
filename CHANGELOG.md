@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 03: Data Pipeline & Target Leakage Guard
+- Data cleaning and schema validation module (`data/cleaner.py`, `DataCleaner`).
+- SHA256 dataset versioning and provenance tracking (`data/versioning.py`, `DatasetVersionManager`).
+- Automated data quality and profiling reporter (`data/quality_report.py`, `DataQualityReporter`).
+- Hard-stop target leakage assertion guard (`features/leakage_guard.py`, `LeakageGuard`).
+- Leakage-safe domain feature engineering (`features/builder.py`, `FeatureBuilder`).
+- End-to-end data pipeline runner script (`scripts/run_pipeline.py`).
+- Automated unit tests (`tests/test_data_pipeline.py`) asserting deduplication, versioning checksums, quality reports, leakage assertions, and feature engineering.
+
 ### Added - Phase 02: Synthetic Customer Dataset Generator
 - Seeded, reproducible synthetic dataset generator (`data/generator.py`, `CustomerDataGenerator`).
 - Feature schema registry (`data/schema.py`) categorizing ID, Numerical, Categorical, Target, and explicit Leakage fields (`LEAKAGE_FIELDS`).
