@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 02: Synthetic Customer Dataset Generator
+- Seeded, reproducible synthetic dataset generator (`data/generator.py`, `CustomerDataGenerator`).
+- Feature schema registry (`data/schema.py`) categorizing ID, Numerical, Categorical, Target, and explicit Leakage fields (`LEAKAGE_FIELDS`).
+- Ground-truth log-odds data generating process with controlled signal (support tickets, contract type, payment failures, price increases) + noise.
+- Target leakage field generation (`cancellation_processed_date`, `final_invoice_flag`, `account_status_deactivated`, `churn_reason_recorded`) populated exclusively for churners to audit leakage prevention.
+- Data generation CLI script (`scripts/generate_data.py`).
+- Automated tests (`tests/test_data_generator.py`) asserting reproducibility, schema compliance, target leakage isolation, and ground-truth signal recovery.
+
 ### Added - Phase 01: Project Setup
 - Multi-package directory structure (`config`, `data`, `features`, `models`, `training`, `evaluation`, `explainability`, `deployment`, `api`, `dashboard`, `streaming`, `monitoring`, `utils`, `tests`).
 - Centralized Pydantic Settings configuration (`config/settings.py`, `config/default_config.yaml`).
