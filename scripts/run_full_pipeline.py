@@ -40,7 +40,7 @@ def run_all_stages() -> bool:
     cleaner = DataCleaner()
     clean_df = cleaner.clean(raw_df)
     quality_reporter = DataQualityReporter()
-    quality_reporter.generate_report(clean_df, save_artifact=True)
+    quality_reporter.generate_report(clean_df)
 
     # STAGE 3: Domain Feature Engineering & Preprocessing Pipeline
     logger.info("\n--- STAGE 3: Domain Feature Engineering & Preprocessing Pipeline ---")
@@ -68,7 +68,8 @@ def run_all_stages() -> bool:
     X_val_trans = preprocessor.transform(X_val)
     X_test_trans = preprocessor.transform(X_test)
 
-    pipe_builder.save_pipeline(preprocessor)
+    from features.pipeline import save_preprocessing_pipeline
+    save_preprocessing_pipeline(preprocessor)
 
     cb_trainer = CatBoostTrainer(seed=42)
     cb_model = cb_trainer.train_with_early_stopping(X_tr_trans, y_tr.to_numpy(), X_val_trans, y_val.to_numpy())
