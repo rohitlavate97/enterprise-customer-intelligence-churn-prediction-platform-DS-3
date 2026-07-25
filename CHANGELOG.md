@@ -7,17 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 11: Business Analytics Engine & Retention Intervention ROI
+- Customer Lifetime Value (CLV) calculation engine (`evaluation/business_roi.py`, `BusinessROIAnalyzer`).
+- Total revenue at risk estimation and retention intervention campaign ROI modeling.
+- High-risk customer prioritized retention call list generator (`generate_high_risk_call_list`) outputting CSV artifacts with actionable business recommendations.
+- Business analytics CLI runner (`scripts/run_business_analytics.py`) exporting `models/artifacts/business_analytics_report.json` and `models/artifacts/high_risk_call_list.csv`.
+- Automated unit tests (`tests/test_business_roi.py`) verifying CLV formulas, campaign net profit calculation, and call list sorting.
+
 ### Added - Phase 10: Explainability Layer & Segment Fairness Audit
 - Global and local per-customer explanation generator (`explainability/shap_explainer.py`, `ModelExplainer`).
-- Plain-language business narrative translation (`translate_feature_to_business_reason`) mapping model contribution scores to actionable retention team recommendations.
+- Plain-language business narrative translation mapping model contribution scores to actionable recommendations.
 - Partial Dependence Plot computation engine (`explainability/pdp_analysis.py`, `PartialDependenceAnalyzer`).
-- Segment fairness and error rate disparity auditor (`explainability/segment_fairness.py`, `SegmentFairnessAuditor`) auditing performance across tenure bands, contract types, plan tiers, and geographies.
-- Explainability and fairness CLI runner script (`scripts/run_explainability.py`).
-- Automated unit tests (`tests/test_explainability.py`) verifying business narrative translations, local traces, PDP grid calculations, and fairness disparity alerts.
+- Segment fairness and error rate disparity auditor (`explainability/segment_fairness.py`, `SegmentFairnessAuditor`).
 
 ### Added - Phase 09: Model Comparison & Benchmarking Report
 - Model comparison reporter (`evaluation/comparison_report.py`, `ModelComparisonReporter`).
-- Generated markdown benchmark documentation (`docs/MODEL_COMPARISON_REPORT.md`).
 
 ### Added - Phase 08: CatBoost Classifier Suite & Triple Benchmark
 - CatBoost training pipeline (`models/catboost_suite.py`, `CatBoostTrainer`).
