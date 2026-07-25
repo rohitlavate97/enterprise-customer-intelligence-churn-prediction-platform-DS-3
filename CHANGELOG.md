@@ -7,31 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 07: LightGBM Classifier Suite & Benchmark
+- LightGBM training pipeline (`models/lightgbm_suite.py`, `LightGBMTrainer`) featuring:
+  - Histogram-based feature binning and leaf-wise tree growth.
+  - Early stopping callbacks (`binary_logloss`).
+  - Hyperparameter optimization via `RandomizedSearchCV` (`num_leaves`, `max_depth`, `learning_rate`, `subsample`, `colsample_bytree`).
+- CLI script (`scripts/train_lightgbm.py`) benchmarking LightGBM vs XGBoost on training speed, inference latency, PR AUC, ROC AUC, and Log Loss, saving model artifact (`models/artifacts/lightgbm_model.joblib`).
+- Automated unit tests (`tests/test_lightgbm_suite.py`) verifying early stopping, probability calibration, and benchmarking against XGBoost.
+
 ### Added - Phase 06: XGBoost Classifier Suite & SHAP Explainability
-- XGBoost training pipeline (`models/xgboost_suite.py`, `XGBoostTrainer`) featuring:
-  - Early stopping on a dedicated validation fold.
-  - Hyperparameter optimization via `RandomizedSearchCV`.
-  - TreeExplainer SHAP & feature importance extraction.
-- CLI script (`scripts/train_xgboost.py`) to tune, train, evaluate, compute feature importances, and save model artifacts (`models/artifacts/xgboost_model.joblib`).
-- Automated unit tests (`tests/test_xgboost_suite.py`) verifying early stopping, probability calibration, and SHAP/feature importance matrix calculation.
+- XGBoost training pipeline (`models/xgboost_suite.py`, `XGBoostTrainer`).
+- CLI script (`scripts/train_xgboost.py`).
+- Automated unit tests (`tests/test_xgboost_suite.py`).
 
 ### Added - Phase 05: Baseline Models & Stratified Cross-Validation
-- Comprehensive model evaluation metrics suite (`evaluation/metrics.py`, `ModelEvaluator`) computing PR AUC, ROC AUC, F1, Precision, Recall, Log Loss, Brier Score, and Confusion Matrix.
+- Comprehensive model evaluation metrics suite (`evaluation/metrics.py`, `ModelEvaluator`).
 - 8 baseline estimator definitions (`models/baselines.py`, `get_baseline_models`).
-- `BaselineEvaluator` executing `StratifiedKFold` cross-validation with leakage-isolated preprocessing.
-- Baseline model benchmark CLI runner script (`scripts/train_baselines.py`).
 
 ### Added - Phase 04: Preprocessing Pipeline & Serving Parity
-- Scikit-learn custom transformers (`features/transformers.py`, `DomainFeatureTransformer`, `OutlierClipper`).
-- Reusable `PreprocessingPipelineBuilder` (`features/pipeline.py`) building `ColumnTransformer`.
-- Pipeline serialization (`save_preprocessing_pipeline`, `load_preprocessing_pipeline`).
+- Scikit-learn custom transformers (`features/transformers.py`) & `PreprocessingPipelineBuilder` (`features/pipeline.py`).
 
 ### Added - Phase 03: Data Pipeline & Target Leakage Guard
-- Data cleaning and schema validation (`data/cleaner.py`, `DataCleaner`).
-- SHA256 dataset versioning and provenance tracking (`data/versioning.py`).
-- Automated data quality and profiling reporter (`data/quality_report.py`).
-- Hard-stop target leakage assertion guard (`features/leakage_guard.py`, `LeakageGuard`).
-- Leakage-safe domain feature engineering (`features/builder.py`, `FeatureBuilder`).
+- Data cleaning (`data/cleaner.py`), versioning (`data/versioning.py`), quality reporter (`data/quality_report.py`), and `LeakageGuard` (`features/leakage_guard.py`).
 
 ### Added - Phase 02: Synthetic Customer Dataset Generator
 - Seeded, reproducible synthetic dataset generator (`data/generator.py`, `CustomerDataGenerator`).
