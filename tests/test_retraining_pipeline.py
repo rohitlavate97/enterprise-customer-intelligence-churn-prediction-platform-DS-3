@@ -11,7 +11,7 @@ def test_model_registry_versioning(tmp_path):
     """Assert ModelRegistry saves versioned binary and updates manifest."""
     registry = ModelRegistry(registry_dir=tmp_path)
     model = DummyClassifier(strategy="prior")
-    model.fit(np.zeros((10, 2)), np.zeros(10))
+    model.fit(np.zeros((10, 2)), np.array([0, 1] * 5))
 
     artifact_path = registry.register_version(model, "v1.0", {"pr_auc": 0.85}, description="Test v1.0")
 
@@ -25,9 +25,9 @@ def test_champion_promotion_and_rollback(tmp_path):
     """Assert promote_to_champion updates active Champion and rollback restores previous version."""
     registry = ModelRegistry(registry_dir=tmp_path)
     model1 = DummyClassifier(strategy="prior")
-    model1.fit(np.zeros((10, 2)), np.zeros(10))
+    model1.fit(np.zeros((10, 2)), np.array([0, 1] * 5))
     model2 = DummyClassifier(strategy="prior")
-    model2.fit(np.zeros((10, 2)), np.zeros(10))
+    model2.fit(np.zeros((10, 2)), np.array([0, 1] * 5))
 
     registry.register_version(model1, "v1.0", {"pr_auc": 0.85})
     registry.register_version(model2, "v1.1", {"pr_auc": 0.88})
