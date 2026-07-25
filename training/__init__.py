@@ -1,1 +1,5 @@
-"""Model training, hyperparameter tuning, and cross-validation module."""
+"""Training package initialization."""
+
+from training.trainer import ModelTrainer
+
+__all__ = ["ModelTrainer"]
