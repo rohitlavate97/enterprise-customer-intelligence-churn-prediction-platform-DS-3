@@ -59,7 +59,9 @@ uvicorn api.app:app --host 0.0.0.0 --port 8000 --reload
 ```
 - **Swagger UI Documentation:** `http://localhost:8000/docs`
 - **ReDoc Documentation:** `http://localhost:8000/redoc`
+- **Platform Version Info:** `http://localhost:8000/version`
 - **Prometheus Metrics:** `http://localhost:8000/metrics`
+- **OpenAPI JSON:** `http://localhost:8000/openapi.json`
 
 ### 4. Launch Executive Streamlit Dashboard
 ```bash
@@ -91,4 +93,4 @@ streamlit run dashboard/app.py
 ```bash
 python -m pytest
 ```
-*61/61 unit & integration tests passing cleanly.*
+*70+ unit & integration tests passing cleanly across all 20 phases.*

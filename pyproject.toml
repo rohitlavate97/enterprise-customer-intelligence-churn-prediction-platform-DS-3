@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "churn-prediction-platform"
-version = "0.1.0"
+version = "2.1.0"
 description = "Enterprise Customer Intelligence & Churn Prediction Platform"
 authors = [{ name = "Enterprise ML Architecture Team" }]
 readme = "README.md"
@@ -18,6 +18,8 @@ dependencies = [
     "catboost>=1.2.0",
     "shap>=0.43.0",
     "imbalanced-learn>=0.11.0",
+    "joblib>=1.3.0",
+    "scipy>=1.11.0",
     "mlflow>=2.8.0",
     "fastapi>=0.104.0",
     "uvicorn[standard]>=0.24.0",
@@ -44,7 +46,7 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["src*", "config*", "features*", "models*", "training*", "evaluation*", "explainability*", "deployment*", "api*", "dashboard*", "streaming*", "monitoring*", "utils*"]
+include = ["src*", "data*", "config*", "features*", "models*", "training*", "evaluation*", "explainability*", "deployment*", "api*", "dashboard*", "streaming*", "monitoring*", "utils*"]
 
 [tool.ruff]
 line-length = 100
@@ -70,3 +72,11 @@ minversion = "7.0"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["api", "config", "data", "evaluation", "explainability", "features", "models", "monitoring", "streaming", "training", "utils"]
+omit = ["tests/*", "scripts/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+fail_under = 75
+show_missing = true
