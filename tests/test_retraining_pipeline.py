@@ -21,8 +21,12 @@ def test_model_registry_versioning(tmp_path):
     assert manifest["history"][0]["version_tag"] == "v1.0"
 
 
-def test_champion_promotion_and_rollback(tmp_path):
+def test_champion_promotion_and_rollback(tmp_path, monkeypatch):
     """Assert promote_to_champion updates active Champion and rollback restores previous version."""
+    # Patch artifacts_dir so promotion copies into tmp_path
+    import config.settings as settings_module
+    monkeypatch.setattr(settings_module.settings, "artifacts_dir", tmp_path)
+
     registry = ModelRegistry(registry_dir=tmp_path)
     model1 = DummyClassifier(strategy="prior")
     model1.fit(np.zeros((10, 2)), np.array([0, 1] * 5))
@@ -41,11 +45,13 @@ def test_champion_promotion_and_rollback(tmp_path):
     assert manifest["active_champion"]["version_tag"] == "v1.1"
     assert manifest["previous_champion"]["version_tag"] == "v1.0"
 
-    # Test Rollback
+    # Test Rollback — previous_champion should become active, demoted stored as previous
     rolled_back = registry.rollback_champion()
     assert rolled_back is True
     manifest_after = registry.load_manifest()
     assert manifest_after["active_champion"]["version_tag"] == "v1.0"
+    # Rollback chain preserved: demoted v1.1 stored as previous_champion
+    assert manifest_after["previous_champion"]["version_tag"] == "v1.1"
 
 
 def test_retraining_pipeline_cycle():

@@ -84,19 +84,26 @@ class ModelRegistry:
             raise ValueError(f"Version '{version_tag}' not found in model registry!")
 
         source_path = Path(entry["filepath"])
-        prod_target_path = settings.artifacts_dir / "catboost_model.joblib"
+        # Use a stable, model-type-agnostic champion artifact name
+        prod_target_path = settings.artifacts_dir / "champion_model.joblib"
 
         # Copy to active production artifact
         shutil.copy2(source_path, prod_target_path)
 
-        manifest["previous_champion"] = manifest.get("active_champion")
+        # Keep full rollback chain: push current champion into previous_champion
+        current_champion = manifest.get("active_champion")
+        manifest["previous_champion"] = current_champion
         manifest["active_champion"] = entry
         self.save_manifest(manifest)
 
-        logger.info(f"PROMOTED model version '{version_tag}' to Active Champion (Copied to {prod_target_path.name}).")
+        logger.info(f"PROMOTED model version '{version_tag}' to Active Champion (Copied to {prod_target_path.name}).")  
 
     def rollback_champion(self) -> bool:
-        """Rollback active Champion to previous Champion version."""
+        """Rollback active Champion to previous Champion version.
+
+        After rollback the demoted version is stored in ``previous_champion`` so
+        a second rollback call can re-apply it if needed.
+        """
         manifest = self.load_manifest()
         prev = manifest.get("previous_champion")
 
@@ -105,12 +112,14 @@ class ModelRegistry:
             return False
 
         prev_path = Path(prev["filepath"])
-        prod_target_path = settings.artifacts_dir / "catboost_model.joblib"
+        prod_target_path = settings.artifacts_dir / "champion_model.joblib"
 
         shutil.copy2(prev_path, prod_target_path)
 
+        # Swap champion/previous so the demoted version is still reachable
+        demoted = manifest["active_champion"]
         manifest["active_champion"] = prev
-        manifest["previous_champion"] = None
+        manifest["previous_champion"] = demoted
         self.save_manifest(manifest)
 
         logger.warning(f"ROLLBACK EXECUTED: Restored previous Champion version '{prev['version_tag']}'.")
