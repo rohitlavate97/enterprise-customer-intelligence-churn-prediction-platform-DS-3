@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 08: CatBoost Classifier Suite & Triple Gradient Boosting Benchmark
+- CatBoost training pipeline (`models/catboost_suite.py`, `CatBoostTrainer`) featuring:
+  - Ordered target encoding to prevent categorical target leakage.
+  - Early stopping on a dedicated validation fold.
+  - Hyperparameter optimization via `RandomizedSearchCV` (`depth`, `l2_leaf_reg`, `learning_rate`, `scale_pos_weight`).
+- CLI script (`scripts/train_catboost.py`) running a triple gradient boosting benchmark (CatBoost vs LightGBM vs XGBoost) evaluating PR AUC, ROC AUC, F1, Log Loss, Training Time, and Inference Latency, saving artifact (`models/artifacts/catboost_model.joblib`).
+- Automated unit tests (`tests/test_catboost_suite.py`) verifying early stopping, probability calibration, and triple model benchmark (CatBoost PR AUC: 0.9099).
+
 ### Added - Phase 07: LightGBM Classifier Suite & Benchmark
-- LightGBM training pipeline (`models/lightgbm_suite.py`, `LightGBMTrainer`) featuring:
-  - Histogram-based feature binning and leaf-wise tree growth.
-  - Early stopping callbacks (`binary_logloss`).
-  - Hyperparameter optimization via `RandomizedSearchCV` (`num_leaves`, `max_depth`, `learning_rate`, `subsample`, `colsample_bytree`).
-- CLI script (`scripts/train_lightgbm.py`) benchmarking LightGBM vs XGBoost on training speed, inference latency, PR AUC, ROC AUC, and Log Loss, saving model artifact (`models/artifacts/lightgbm_model.joblib`).
-- Automated unit tests (`tests/test_lightgbm_suite.py`) verifying early stopping, probability calibration, and benchmarking against XGBoost.
+- LightGBM training pipeline (`models/lightgbm_suite.py`, `LightGBMTrainer`).
+- CLI script (`scripts/train_lightgbm.py`).
+- Automated unit tests (`tests/test_lightgbm_suite.py`).
 
 ### Added - Phase 06: XGBoost Classifier Suite & SHAP Explainability
 - XGBoost training pipeline (`models/xgboost_suite.py`, `XGBoostTrainer`).
