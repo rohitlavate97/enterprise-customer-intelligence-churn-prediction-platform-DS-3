@@ -7,16 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added - Phase 12: Production FastAPI Inference Server
-- Real-time FastAPI web application (`api/app.py`).
-- Pydantic v2 schemas (`api/schemas.py`) with strict validation bounds (`CustomerPredictionRequest`, `PredictionResponse`, `BatchPredictionRequest`, `BatchPredictionResponse`, `HealthCheckResponse`).
-- Multi-tier endpoints:
-  - `POST /predict`: Single-customer real-time churn prediction, returning probability, risk level, estimated CLV, top SHAP business drivers, and recommended retention action.
-  - `POST /predict/batch`: High-throughput batch prediction processing.
-  - `GET /health`: Liveness probe returning server uptime and loaded model status.
-- Graceful degradation fallback mode if model artifacts are missing.
-- Latency SLA guarantee (single customer inference latency < 50ms).
-- Automated unit tests (`tests/test_api.py`) covering all endpoints, Pydantic validation error handling (HTTP 422), and 50ms SLA assertion.
+### Added - Phase 12: Production FastAPI Inference Server & Swagger / OpenAPI Documentation
+- Custom Swagger UI (`/docs`) and ReDoc (`/redoc`) documentation setup with tagged endpoint categories ("Inference", "Explainability", "System & Health", "Monitoring").
+- Pydantic v2 schemas (`api/schemas.py`) enriched with `json_schema_extra` examples and field descriptions.
+- Added `/explain/{customer_id}` endpoint returning detailed SHAP feature contribution breakdowns and plain-language retention summary narratives.
+- Added `/metrics` endpoint serving Prometheus-compatible operational metrics (`churn_api_requests_total`, `churn_predictions_total`, `churn_high_risk_predictions_total`, `churn_api_uptime_seconds`).
+- Added raw OpenAPI 3.0 specification export route `/api/v1/openapi.json`.
+- Automated unit tests (`tests/test_api_docs.py`) verifying Swagger UI, ReDoc, OpenAPI schema compliance, `/explain`, and `/metrics`.
 
 ### Added - Phase 11: Business Analytics Engine & Retention Intervention ROI
 - Customer Lifetime Value (CLV) calculation engine (`evaluation/business_roi.py`).
