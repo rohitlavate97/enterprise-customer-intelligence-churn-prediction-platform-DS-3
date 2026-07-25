@@ -7,12 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 17: End-to-End System Integration Tests & Master Workflow Orchestrator
+- Master CLI Workflow Orchestrator (`scripts/run_full_pipeline.py`) executing all platform stages sequentially in 4.29s:
+  1. Synthetic Data Generation with Ground-Truth Signal.
+  2. Data Cleaning & Data Quality Profiling.
+  3. Domain Feature Engineering & Leakage Guard.
+  4. Preprocessing Pipeline & CatBoost Champion Training with Early Stopping.
+  5. Explainability Layer & Segment Fairness Audit.
+  6. Financial ROI & High-Risk Customer Retention Call List.
+  7. Real-Time Customer Event Streaming Simulation & High-Risk Alerts.
+  8. Feature Distribution Drift Audit (PSI & KS tests).
+  9. Automated Retraining Cycle & Champion vs Challenger Gate.
+- End-to-End System Integration Test Suite (`tests/test_e2e_pipeline.py`) validating the complete lifecycle.
+
 ### Added - Phase 16: Automated Retraining Pipeline & Model Registry
-- Versioned model binary registry (`training/model_registry.py`, `ModelRegistry`) saving SHA256 checksums and JSON manifest logs (`models/registry/registry_manifest.json`).
-- Champion vs. Challenger validation gate (`training/retraining_pipeline.py`, `AutomatedRetrainingPipeline`) enforcing a $\ge 1.0\%$ relative PR AUC gain threshold for promotion.
-- Automated rollback mechanism (`rollback_champion`) restoring previous production Champion model if candidate validation fails or degrades in staging.
-- Retraining execution CLI runner script (`scripts/run_retraining_pipeline.py`).
-- Automated unit tests (`tests/test_retraining_pipeline.py`) verifying version registration, Champion promotion, rollback capability, and validation gate rules.
+- Versioned model binary registry (`training/model_registry.py`) saving SHA256 checksums and JSON manifest logs.
+- Champion vs. Challenger validation gate (`training/retraining_pipeline.py`) enforcing $\ge 1.0\%$ relative PR AUC gain threshold.
+- Automated rollback mechanism (`rollback_champion`).
 
 ### Added - Phase 15: Model Monitoring & Data/Concept Drift Engine
 - Feature distribution Population Stability Index (PSI) calculator (`monitoring/drift_detector.py`).
