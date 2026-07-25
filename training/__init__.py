@@ -1,5 +1,6 @@
 """Training package initialization."""
 
-from training.trainer import ModelTrainer
+from training.model_registry import ModelRegistry
+from training.retraining_pipeline import AutomatedRetrainingPipeline
 
-__all__ = ["ModelTrainer"]
+__all__ = ["ModelRegistry", "AutomatedRetrainingPipeline"]

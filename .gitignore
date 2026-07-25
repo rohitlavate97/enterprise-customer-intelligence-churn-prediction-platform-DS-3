@@ -107,6 +107,7 @@ data/processed/*
 !data/processed/.gitkeep
 models/artifacts/*
 !models/artifacts/.gitkeep
+models/registry/*.joblib
 mlruns/
 mlruns.db
 .mlflow/
