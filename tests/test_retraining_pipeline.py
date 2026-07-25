@@ -23,9 +23,13 @@ def test_model_registry_versioning(tmp_path):
 
 def test_champion_promotion_and_rollback(tmp_path, monkeypatch):
     """Assert promote_to_champion updates active Champion and rollback restores previous version."""
-    # Patch artifacts_dir so promotion copies into tmp_path
-    import config.settings as settings_module
-    monkeypatch.setattr(settings_module.settings, "artifacts_dir", tmp_path)
+    # Patch settings inside model_registry where it's actually consumed
+    import training.model_registry as registry_module
+    from unittest.mock import MagicMock
+
+    mock_settings = MagicMock()
+    mock_settings.artifacts_dir = tmp_path
+    monkeypatch.setattr(registry_module, "settings", mock_settings)
 
     registry = ModelRegistry(registry_dir=tmp_path)
     model1 = DummyClassifier(strategy="prior")
