@@ -1,6 +1,6 @@
 name: Enterprise ML Platform CI/CD
 
-on:
+"on":
   push:
     branches: [ main ]
   pull_request:

@@ -14,7 +14,7 @@ def test_ci_workflow_yaml_existence_and_validity():
         config = yaml.safe_load(f)
 
     assert "name" in config
-    assert "on" in config
+    assert "on" in config or True in config
     assert "jobs" in config
     assert "lint-and-test" in config["jobs"]
     assert "e2e-workflow-audit" in config["jobs"]
