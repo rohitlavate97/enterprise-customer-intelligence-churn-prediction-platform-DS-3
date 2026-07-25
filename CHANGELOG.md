@@ -7,30 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 12: Production FastAPI Inference Server
+- Real-time FastAPI web application (`api/app.py`).
+- Pydantic v2 schemas (`api/schemas.py`) with strict validation bounds (`CustomerPredictionRequest`, `PredictionResponse`, `BatchPredictionRequest`, `BatchPredictionResponse`, `HealthCheckResponse`).
+- Multi-tier endpoints:
+  - `POST /predict`: Single-customer real-time churn prediction, returning probability, risk level, estimated CLV, top SHAP business drivers, and recommended retention action.
+  - `POST /predict/batch`: High-throughput batch prediction processing.
+  - `GET /health`: Liveness probe returning server uptime and loaded model status.
+- Graceful degradation fallback mode if model artifacts are missing.
+- Latency SLA guarantee (single customer inference latency < 50ms).
+- Automated unit tests (`tests/test_api.py`) covering all endpoints, Pydantic validation error handling (HTTP 422), and 50ms SLA assertion.
+
 ### Added - Phase 11: Business Analytics Engine & Retention Intervention ROI
-- Customer Lifetime Value (CLV) calculation engine (`evaluation/business_roi.py`, `BusinessROIAnalyzer`).
+- Customer Lifetime Value (CLV) calculation engine (`evaluation/business_roi.py`).
 - Total revenue at risk estimation and retention intervention campaign ROI modeling.
-- High-risk customer prioritized retention call list generator (`generate_high_risk_call_list`) outputting CSV artifacts with actionable business recommendations.
-- Business analytics CLI runner (`scripts/run_business_analytics.py`) exporting `models/artifacts/business_analytics_report.json` and `models/artifacts/high_risk_call_list.csv`.
-- Automated unit tests (`tests/test_business_roi.py`) verifying CLV formulas, campaign net profit calculation, and call list sorting.
+- High-risk customer prioritized retention call list generator.
 
 ### Added - Phase 10: Explainability Layer & Segment Fairness Audit
-- Global and local per-customer explanation generator (`explainability/shap_explainer.py`, `ModelExplainer`).
-- Plain-language business narrative translation mapping model contribution scores to actionable recommendations.
-- Partial Dependence Plot computation engine (`explainability/pdp_analysis.py`, `PartialDependenceAnalyzer`).
-- Segment fairness and error rate disparity auditor (`explainability/segment_fairness.py`, `SegmentFairnessAuditor`).
+- Global and local per-customer explanation generator (`explainability/shap_explainer.py`).
+- Plain-language business narrative translation.
+- Partial Dependence Plot computation engine (`explainability/pdp_analysis.py`).
+- Segment fairness and error rate disparity auditor (`explainability/segment_fairness.py`).
 
 ### Added - Phase 09: Model Comparison & Benchmarking Report
-- Model comparison reporter (`evaluation/comparison_report.py`, `ModelComparisonReporter`).
+- Model comparison reporter (`evaluation/comparison_report.py`).
 
 ### Added - Phase 08: CatBoost Classifier Suite & Triple Benchmark
-- CatBoost training pipeline (`models/catboost_suite.py`, `CatBoostTrainer`).
+- CatBoost training pipeline (`models/catboost_suite.py`).
 
 ### Added - Phase 07: LightGBM Classifier Suite & Benchmark
-- LightGBM training pipeline (`models/lightgbm_suite.py`, `LightGBMTrainer`).
+- LightGBM training pipeline (`models/lightgbm_suite.py`).
 
 ### Added - Phase 06: XGBoost Classifier Suite & SHAP Explainability
-- XGBoost training pipeline (`models/xgboost_suite.py`, `XGBoostTrainer`).
+- XGBoost training pipeline (`models/xgboost_suite.py`).
 
 ### Added - Phase 05: Baseline Models & Stratified Cross-Validation
 - Comprehensive model evaluation metrics suite (`evaluation/metrics.py`).
