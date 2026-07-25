@@ -7,14 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 05: Baseline Models & Stratified Cross-Validation
+- Comprehensive model evaluation metrics suite (`evaluation/metrics.py`, `ModelEvaluator`) computing PR AUC, ROC AUC, F1, Precision, Recall, Log Loss, Brier Score, and Confusion Matrix.
+- 8 baseline estimator definitions (`models/baselines.py`, `get_baseline_models`: Logistic Regression, Decision Tree, Random Forest, Extra Trees, Gradient Boosting, SVM, KNN, Naive Bayes).
+- `BaselineEvaluator` executing `StratifiedKFold` cross-validation with leakage-isolated preprocessing fitted strictly on training folds.
+- Baseline model benchmark CLI runner script (`scripts/train_baselines.py`).
+- Automated unit tests (`tests/test_baseline_models.py`) verifying metrics, 8 baseline definitions, cross-validation execution, and ground-truth signal recovery (PR AUC > 0.40).
+
 ### Added - Phase 04: Preprocessing Pipeline & Serving Parity
 - Scikit-learn custom transformers (`features/transformers.py`, `DomainFeatureTransformer`, `OutlierClipper`).
 - Reusable `PreprocessingPipelineBuilder` (`features/pipeline.py`) building `ColumnTransformer` with `SimpleImputer`, `RobustScaler`/`StandardScaler`, and `OneHotEncoder`.
 - Pipeline serialization (`save_preprocessing_pipeline`, `load_preprocessing_pipeline`).
-- Automated unit tests (`tests/test_preprocessing_pipeline.py`) verifying:
-  - Provable fit/transform separation (asserting fit statistics are locked on training folds).
-  - Train/serve parity (asserting single-row request transformation matches batch output).
-  - Serialization roundtrip fidelity.
+- Automated unit tests (`tests/test_preprocessing_pipeline.py`) verifying fit/transform separation and train/serve parity.
 
 ### Added - Phase 03: Data Pipeline & Target Leakage Guard
 - Data cleaning and schema validation module (`data/cleaner.py`, `DataCleaner`).
@@ -23,20 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hard-stop target leakage assertion guard (`features/leakage_guard.py`, `LeakageGuard`).
 - Leakage-safe domain feature engineering (`features/builder.py`, `FeatureBuilder`).
 - End-to-end data pipeline runner script (`scripts/run_pipeline.py`).
-- Automated unit tests (`tests/test_data_pipeline.py`) asserting deduplication, versioning checksums, quality reports, leakage assertions, and feature engineering.
 
 ### Added - Phase 02: Synthetic Customer Dataset Generator
 - Seeded, reproducible synthetic dataset generator (`data/generator.py`, `CustomerDataGenerator`).
-- Feature schema registry (`data/schema.py`) categorizing ID, Numerical, Categorical, Target, and explicit Leakage fields (`LEAKAGE_FIELDS`).
-- Ground-truth log-odds data generating process with controlled signal (support tickets, contract type, payment failures, price increases) + noise.
-- Target leakage field generation (`cancellation_processed_date`, `final_invoice_flag`, `account_status_deactivated`, `churn_reason_recorded`) populated exclusively for churners to audit leakage prevention.
-- Data generation CLI script (`scripts/generate_data.py`).
-- Automated tests (`tests/test_data_generator.py`) asserting reproducibility, schema compliance, target leakage isolation, and ground-truth signal recovery.
+- Feature schema registry (`data/schema.py`).
+- Ground-truth log-odds data generating process with controlled signal.
 
 ### Added - Phase 01: Project Setup
-- Multi-package directory structure (`config`, `data`, `features`, `models`, `training`, `evaluation`, `explainability`, `deployment`, `api`, `dashboard`, `streaming`, `monitoring`, `utils`, `tests`).
-- Centralized Pydantic Settings configuration (`config/settings.py`, `config/default_config.yaml`).
-- Structured logging module with file and stdout handlers (`utils/logger.py`).
-- Docker execution environment (`docker/Dockerfile`, `docker/Dockerfile.mlflow`, `docker-compose.yml`).
-- Pre-commit hooks (`.pre-commit-config.yaml`) and GitHub Actions CI workflow (`.github/workflows/ci.yml`).
-- Initial unit test verifying setup, paths, and logger (`tests/test_setup.py`).
+- Multi-package directory structure and Pydantic Settings configuration (`config/settings.py`).
