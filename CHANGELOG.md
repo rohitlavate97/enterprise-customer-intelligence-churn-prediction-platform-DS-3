@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 04: Preprocessing Pipeline & Serving Parity
+- Scikit-learn custom transformers (`features/transformers.py`, `DomainFeatureTransformer`, `OutlierClipper`).
+- Reusable `PreprocessingPipelineBuilder` (`features/pipeline.py`) building `ColumnTransformer` with `SimpleImputer`, `RobustScaler`/`StandardScaler`, and `OneHotEncoder`.
+- Pipeline serialization (`save_preprocessing_pipeline`, `load_preprocessing_pipeline`).
+- Automated unit tests (`tests/test_preprocessing_pipeline.py`) verifying:
+  - Provable fit/transform separation (asserting fit statistics are locked on training folds).
+  - Train/serve parity (asserting single-row request transformation matches batch output).
+  - Serialization roundtrip fidelity.
+
 ### Added - Phase 03: Data Pipeline & Target Leakage Guard
 - Data cleaning and schema validation module (`data/cleaner.py`, `DataCleaner`).
 - SHA256 dataset versioning and provenance tracking (`data/versioning.py`, `DatasetVersionManager`).
