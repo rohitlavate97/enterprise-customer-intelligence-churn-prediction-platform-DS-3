@@ -7,24 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Phase 13: Interactive Streamlit Executive Dashboard & ROI Simulator
+- Full multi-tab Streamlit dashboard application (`dashboard/app.py`):
+  - **Executive Overview:** High-level KPI metrics, interactive Retention Campaign ROI simulator with sliders, and downloadable high-risk call list CSV export.
+  - **Real-Time Risk Calculator:** Interactive customer profile input form rendering real-time churn probability gauge chart and plain-language SHAP retention action plans.
+  - **Model Benchmarking:** Model metric table and Plotly accuracy vs. speed trade-off scatter plot.
+  - **Customer Deep-Dive:** Account profile lookup, telemetry history, and risk profile.
+  - **Segment Fairness Audit:** Error rate disparity breakdowns across contract types and tenure bands.
+- Automated unit tests (`tests/test_dashboard.py`) verifying artifact loading and dataset preparation.
+
 ### Added - Phase 12: Production FastAPI Inference Server & Swagger / OpenAPI Documentation
-- Custom Swagger UI (`/docs`) and ReDoc (`/redoc`) documentation setup with tagged endpoint categories ("Inference", "Explainability", "System & Health", "Monitoring").
-- Pydantic v2 schemas (`api/schemas.py`) enriched with `json_schema_extra` examples and field descriptions.
-- Added `/explain/{customer_id}` endpoint returning detailed SHAP feature contribution breakdowns and plain-language retention summary narratives.
-- Added `/metrics` endpoint serving Prometheus-compatible operational metrics (`churn_api_requests_total`, `churn_predictions_total`, `churn_high_risk_predictions_total`, `churn_api_uptime_seconds`).
-- Added raw OpenAPI 3.0 specification export route `/api/v1/openapi.json`.
-- Automated unit tests (`tests/test_api_docs.py`) verifying Swagger UI, ReDoc, OpenAPI schema compliance, `/explain`, and `/metrics`.
+- Custom Swagger UI (`/docs`), ReDoc (`/redoc`), OpenAPI 3.0 export (`/openapi.json`), `/explain`, and Prometheus `/metrics` endpoints.
 
 ### Added - Phase 11: Business Analytics Engine & Retention Intervention ROI
 - Customer Lifetime Value (CLV) calculation engine (`evaluation/business_roi.py`).
-- Total revenue at risk estimation and retention intervention campaign ROI modeling.
-- High-risk customer prioritized retention call list generator.
 
 ### Added - Phase 10: Explainability Layer & Segment Fairness Audit
 - Global and local per-customer explanation generator (`explainability/shap_explainer.py`).
-- Plain-language business narrative translation.
-- Partial Dependence Plot computation engine (`explainability/pdp_analysis.py`).
-- Segment fairness and error rate disparity auditor (`explainability/segment_fairness.py`).
 
 ### Added - Phase 09: Model Comparison & Benchmarking Report
 - Model comparison reporter (`evaluation/comparison_report.py`).
