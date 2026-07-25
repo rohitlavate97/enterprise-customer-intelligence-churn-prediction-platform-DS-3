@@ -39,8 +39,7 @@ def run_all_stages() -> bool:
     logger.info("\n--- STAGE 2: Data Cleaning & Quality Profiling ---")
     cleaner = DataCleaner()
     clean_df = cleaner.clean(raw_df)
-    quality_reporter = DataQualityReporter()
-    quality_reporter.generate_report(clean_df)
+    DataQualityReporter.save_report(clean_df, settings.artifacts_dir / "data_quality_report.json")
 
     # STAGE 3: Domain Feature Engineering & Preprocessing Pipeline
     logger.info("\n--- STAGE 3: Domain Feature Engineering & Preprocessing Pipeline ---")
