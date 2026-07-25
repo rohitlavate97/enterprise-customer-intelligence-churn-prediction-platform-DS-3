@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  mlflow-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mlflow
+    container_name: churn_mlflow_server
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    restart: unless-stopped
+
+  api-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: churn_api_server
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - CHURN_MLFLOW_TRACKING_URI=http://mlflow-server:5000
+    depends_on:
+      - mlflow-server
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  streamlit-dashboard:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: churn_dashboard
+    command: streamlit run dashboard/app.py --server.port=8501 --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    environment:
+      - CHURN_MLFLOW_TRACKING_URI=http://mlflow-server:5000
+      - CHURN_API_HOST=api-server
+    depends_on:
+      - api-server
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+volumes:
+  mlflow_data:
